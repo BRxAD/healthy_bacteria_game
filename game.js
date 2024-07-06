@@ -28,14 +28,6 @@ function init() {
     score = 0;
     gameOver = false;
     requestAnimationFrame(gameLoop);
-
-    // Display instructions
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'black';
-    ctx.font = '24px Helvetica';
-    ctx.fillText("Your mission is to use antibiotics judiciously -", 50, canvas.height / 2 - 60);
-    ctx.fillText("kill the bad bacteria but keep your healthy bacteria safe!", 50, canvas.height / 2 - 20);
-    setTimeout(() => requestAnimationFrame(gameLoop), 3000); // Delay for 3 seconds before starting the game
 }
 
 function gameLoop() {
@@ -49,8 +41,7 @@ function gameLoop() {
 }
 
 function update() {
-    if (pill.y < 0) pill.y = 0;
-    if (pill.y > canvas.height - pill.height) pill.y = canvas.height - pill.height;
+    pill.y += 1;
 
     for (let hb of healthyBacteria) {
         hb.x -= 2;
@@ -90,7 +81,7 @@ function draw() {
     }
 
     ctx.fillStyle = 'black';
-    ctx.font = '24px Helvetica';
+    ctx.font = '24px Arial';
     ctx.fillText('Score: ' + score, 10, 30);
 }
 
@@ -101,7 +92,7 @@ function isColliding(a, b) {
 function displayMessage() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = 'red';
-    ctx.font = '24px Helvetica';
+    ctx.font = '24px Arial';
     ctx.fillText("Antibiotics don't work for all infections,", 10, canvas.height / 2 - 20);
     ctx.fillText("like coughs and colds which are caused by viruses.", 10, canvas.height / 2);
     ctx.fillText("Use antibiotics wisely and keep your healthy bacteria safe!", 10, canvas.height / 2 + 20);
@@ -114,7 +105,7 @@ function displayMessage() {
     playAgainButton.style.left = `${canvas.offsetLeft + canvas.width / 2 - 50}px`;
     playAgainButton.style.top = `${canvas.offsetTop + canvas.height / 2 + 80}px`;
     document.body.appendChild(playAgainButton);
-
+    
     playAgainButton.addEventListener('click', () => {
         document.body.removeChild(playAgainButton);
         init();
@@ -123,16 +114,11 @@ function displayMessage() {
 
 document.addEventListener('keydown', function(event) {
     if (event.key === 'ArrowUp') {
-        pill.y -= 10;  // Increase movement to 3x
+        pill.y -= 30;  // Increase movement to 3x
     } else if (event.key === 'ArrowDown') {
-        pill.y += 10;  // Increase movement to 3x
-    }
-});
-
-document.addEventListener('keyup', function(event) {
-    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-        pill.y += 1; // Smoother movement
+        pill.y += 30;  // Increase movement to 3x
     }
 });
 
 init();
+

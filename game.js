@@ -1,6 +1,6 @@
-
-
 const canvas = document.getElementById('gameCanvas');
+canvas.width = 800;  // Make the screen wider
+canvas.height = 700;
 const ctx = canvas.getContext('2d');
 
 const pillImg = new Image();
@@ -17,12 +17,16 @@ let score = 0;
 let gameOver = false;
 
 function init() {
+    healthyBacteria = [];
+    badBacteria = [];
     for (let i = 0; i < 6; i++) {
         healthyBacteria.push({ x: canvas.width + Math.random() * 1000, y: Math.random() * (canvas.height - 64) });
     }
     for (let i = 0; i < 3; i++) {
         badBacteria.push({ x: canvas.width + Math.random() * 3000, y: Math.random() * (canvas.height - 64) });
     }
+    score = 0;
+    gameOver = false;
     requestAnimationFrame(gameLoop);
 }
 
@@ -93,13 +97,26 @@ function displayMessage() {
     ctx.fillText("like coughs and colds which are caused by viruses.", 10, canvas.height / 2);
     ctx.fillText("Use antibiotics wisely and keep your healthy bacteria safe!", 10, canvas.height / 2 + 20);
     ctx.fillText("Score: " + score, 10, canvas.height / 2 + 60);
+
+    // Add Play Again button
+    const playAgainButton = document.createElement('button');
+    playAgainButton.innerHTML = "Play Again";
+    playAgainButton.style.position = 'absolute';
+    playAgainButton.style.left = `${canvas.offsetLeft + canvas.width / 2 - 50}px`;
+    playAgainButton.style.top = `${canvas.offsetTop + canvas.height / 2 + 80}px`;
+    document.body.appendChild(playAgainButton);
+    
+    playAgainButton.addEventListener('click', () => {
+        document.body.removeChild(playAgainButton);
+        init();
+    });
 }
 
 document.addEventListener('keydown', function(event) {
     if (event.key === 'ArrowUp') {
-        pill.y -= 10;
+        pill.y -= 30;  // Increase movement to 3x
     } else if (event.key === 'ArrowDown') {
-        pill.y += 10;
+        pill.y += 30;  // Increase movement to 3x
     }
 });
 

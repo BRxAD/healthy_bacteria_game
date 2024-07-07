@@ -15,6 +15,10 @@ let healthyBacteria = [];
 let badBacteria = [];
 let score = 0;
 let gameOver = false;
+let startGame = false;
+let showPlusOne = false;
+let plusOneX = 0;
+let plusOneY = 0;
 
 function init() {
     healthyBacteria = [];
@@ -27,10 +31,32 @@ function init() {
     }
     score = 0;
     gameOver = false;
-    requestAnimationFrame(gameLoop);
+    startGame = false;
+
+    // Display initial instructions
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'black';
+    ctx.font = '24px Arial';
+    ctx.fillText("Your mission is to use antibiotics judiciously -", 50, canvas.height / 2 - 60);
+    ctx.fillText("kill the bad bacteria but keep your healthy bacteria safe!", 50, canvas.height / 2 - 20);
+    
+    const startButton = document.createElement('button');
+    startButton.innerHTML = "Start Game";
+    startButton.style.position = 'absolute';
+    startButton.style.left = `${canvas.offsetLeft + canvas.width / 2 - 50}px`;
+    startButton.style.top = `${canvas.offsetTop + canvas.height / 2 + 20}px`;
+    document.body.appendChild(startButton);
+    
+    startButton.addEventListener('click', () => {
+        document.body.removeChild(startButton);
+        startGame = true;
+        requestAnimationFrame(gameLoop);
+    });
 }
 
 function gameLoop() {
+    if (!startGame) return;
+
     if (gameOver) {
         displayMessage();
         return;
@@ -62,6 +88,10 @@ function update() {
         }
         if (isColliding(pill, bb)) {
             score++;
+            showPlusOne = true;
+            plusOneX = bb.x;
+            plusOneY = bb.y;
+            setTimeout(() => showPlusOne = false, 500); // Show +1 for half a second
             bb.x = canvas.width + Math.random() * 3000;
             bb.y = Math.random() * (canvas.height - 64);
         }
@@ -78,6 +108,12 @@ function draw() {
 
     for (let bb of badBacteria) {
         ctx.drawImage(badBacteriaImg, bb.x, bb.y, 64, 64);
+    }
+
+    if (showPlusOne) {
+        ctx.fillStyle = 'red';
+        ctx.font = '24px Arial';
+        ctx.fillText('+1', plusOneX, plusOneY);
     }
 
     ctx.fillStyle = 'black';
@@ -114,9 +150,15 @@ function displayMessage() {
 
 document.addEventListener('keydown', function(event) {
     if (event.key === 'ArrowUp') {
-        pill.y -= 30;  // Increase movement to 3x
+        pill.y -= 10;  // Increase movement to 3x
     } else if (event.key === 'ArrowDown') {
-        pill.y += 30;  // Increase movement to 3x
+        pill.y += 10;  // Increase movement to 3x
+    }
+});
+
+document.addEventListener('keyup', function(event) {
+    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+        pill.y += 1; // Smoother movement
     }
 });
 

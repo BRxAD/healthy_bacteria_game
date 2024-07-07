@@ -150,9 +150,9 @@ function displayMessage() {
 
 document.addEventListener('keydown', function(event) {
     if (event.key === 'ArrowUp') {
-        pill.y -= 10;  // Increase movement to 3x
+        pill.y -= 30;  // Move 3x more
     } else if (event.key === 'ArrowDown') {
-        pill.y += 10;  // Increase movement to 3x
+        pill.y += 30;  // Move 3x more
     }
 });
 
@@ -163,4 +163,5 @@ document.addEventListener('keyup', function(event) {
 });
 
 init();
+
 

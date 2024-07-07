@@ -182,7 +182,13 @@ arrowUpButton.addEventListener('click', function() {
     pill.y -= 30;  // Move 3x more on button press
 });
 
-arrowDownButton.addEventListener('click
+arrowDownButton.addEventListener('click', function() {
+    pill.y += 30;  // Move 3x more on button press
+});
+
+window.addEventListener('resize', resizeCanvas);
+
+init();
 
 
 

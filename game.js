@@ -36,6 +36,8 @@ function init() {
     // Display initial instructions
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = 'black';
+        ctx.font = '36px Arial';
+    ctx.fillText("HEALTHY BACTERIA GAME", 50, canvas.height / 2 - 60);
     ctx.font = '24px Arial';
     ctx.fillText("Your mission is to use antibiotics judiciously -", 50, canvas.height / 2 - 60);
     ctx.fillText("kill the bad bacteria but keep your healthy bacteria safe!", 50, canvas.height / 2 - 20);

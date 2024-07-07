@@ -158,6 +158,10 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
+canvas.addEventListener('touchstart', function(event) {
+    pill.y -= 30;  // Move 3x more on touch
+});
+
 
 init();
 

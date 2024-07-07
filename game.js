@@ -1,7 +1,5 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
-const arrowUpButton = document.getElementById('arrowUp');
-const arrowDownButton = document.getElementById('arrowDown');
 
 resizeCanvas();
 
@@ -24,19 +22,17 @@ let plusOneX = 0;
 let plusOneY = 0;
 
 function resizeCanvas() {
-    if (window.innerWidth < 800) {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight / 2;
+    const minDimension = Math.min(window.innerWidth, window.innerHeight);
+    canvas.width = minDimension;
+    canvas.height = minDimension;
+
+    // Resize the pill for mobile devices
+    if (minDimension < 800) {
         pill.width = 64; // 2x the size
         pill.height = 64;
     } else {
-        canvas.width = 800;  // Original size for larger screens
-        canvas.height = 700;
-        pill.width = 32; // Original size
+        pill.width = 32; // original size
         pill.height = 32;
-    }
-    if (startGame) {
-        draw();
     }
 }
 
@@ -44,10 +40,10 @@ function init() {
     healthyBacteria = [];
     badBacteria = [];
     for (let i = 0; i < 6; i++) {
-        healthyBacteria.push({ x: canvas.width + Math.random() * 1000, y: Math.random() * (canvas.height - 128) });
+        healthyBacteria.push({ x: canvas.width + Math.random() * 1000, y: Math.random() * (canvas.height - 64) });
     }
     for (let i = 0; i < 3; i++) {
-        badBacteria.push({ x: canvas.width + Math.random() * 3000, y: Math.random() * (canvas.height - 128) });
+        badBacteria.push({ x: canvas.width + Math.random() * 3000, y: Math.random() * (canvas.height - 64) });
     }
     score = 0;
     gameOver = false;
@@ -93,9 +89,9 @@ function update() {
 
     for (let hb of healthyBacteria) {
         hb.x -= 2;
-        if (hb.x < -128) {
+        if (hb.x < -64) {
             hb.x = canvas.width + Math.random() * 1000;
-            hb.y = Math.random() * (canvas.height - 128);
+            hb.y = Math.random() * (canvas.height - 64);
         }
         if (isColliding(pill, hb)) {
             gameOver = true;
@@ -104,9 +100,9 @@ function update() {
 
     for (let bb of badBacteria) {
         bb.x -= 4;
-        if (bb.x < -128) {
+        if (bb.x < -64) {
             bb.x = canvas.width + Math.random() * 3000;
-            bb.y = Math.random() * (canvas.height - 128);
+            bb.y = Math.random() * (canvas.height - 64);
         }
         if (isColliding(pill, bb)) {
             score++;
@@ -115,7 +111,7 @@ function update() {
             plusOneY = bb.y;
             setTimeout(() => showPlusOne = false, 500); // Show +1 for half a second
             bb.x = canvas.width + Math.random() * 3000;
-            bb.y = Math.random() * (canvas.height - 128);
+            bb.y = Math.random() * (canvas.height - 64);
         }
     }
 }
@@ -125,11 +121,11 @@ function draw() {
     ctx.drawImage(pillImg, pill.x, pill.y, pill.width, pill.height);
 
     for (let hb of healthyBacteria) {
-        ctx.drawImage(healthyBacteriaImg, hb.x, hb.y, 128, 128); // 2x size on phones
+        ctx.drawImage(healthyBacteriaImg, hb.x, hb.y, 64, 64);
     }
 
     for (let bb of badBacteria) {
-        ctx.drawImage(badBacteriaImg, bb.x, bb.y, 128, 128); // 2x size on phones
+        ctx.drawImage(badBacteriaImg, bb.x, bb.y, 64, 64);
     }
 
     if (showPlusOne) {
@@ -144,7 +140,7 @@ function draw() {
 }
 
 function isColliding(a, b) {
-    return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
+    return a.x < b.x + 64 && a.x + a.width > b.x && a.y < b.y + 64 && a.y + a.height > b.y;
 }
 
 function displayMessage() {
@@ -178,17 +174,12 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-arrowUpButton.addEventListener('click', function() {
-    pill.y -= 30;  // Move 3x more on button press
+canvas.addEventListener('touchstart', function(event) {
+    pill.y -= 30;  // Move 3x more on touch
 });
-
-arrowDownButton.addEventListener('click', function() {
-    pill.y += 30;  // Move 3x more on button press
-});
-
-window.addEventListener('resize', resizeCanvas);
 
 init();
+
 
 
 

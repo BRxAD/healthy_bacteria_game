@@ -3,13 +3,7 @@ const ctx = canvas.getContext('2d');
 
 resizeCanvas();
 
-window.addEventListener('resize', resizeCanvas);
-
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-
+// Double the pill size on mobile devices
 const pillImg = new Image();
 pillImg.src = 'pill.png';
 const healthyBacteriaImg = new Image();
@@ -26,6 +20,21 @@ let startGame = false;
 let showPlusOne = false;
 let plusOneX = 0;
 let plusOneY = 0;
+
+function resizeCanvas() {
+    const minDimension = Math.min(window.innerWidth, window.innerHeight);
+    canvas.width = minDimension;
+    canvas.height = minDimension;
+
+    // Resize the pill for mobile devices
+    if (minDimension < 800) {
+        pill.width = 64; // 2x the size
+        pill.height = 64;
+    } else {
+        pill.width = 32; // original size
+        pill.height = 32;
+    }
+}
 
 function init() {
     healthyBacteria = [];
@@ -170,6 +179,7 @@ canvas.addEventListener('touchstart', function(event) {
 });
 
 init();
+
 
 
 

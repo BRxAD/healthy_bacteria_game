@@ -39,7 +39,7 @@ function init() {
         ctx.font = '36px Arial';
     ctx.fillText("HEALTHY BACTERIA GAME", 50, canvas.height / 2 - 110);
     ctx.font = '24px Arial';
-    ctx.fillText("Your mission is to use antibiotics judiciously -", 50, canvas.height / 2 - 60);
+    ctx.fillText("Your mission is to use antibiotics carefully -", 50, canvas.height / 2 - 60);
     ctx.fillText("kill the bad bacteria but keep your healthy bacteria safe!", 50, canvas.height / 2 - 20);
     
     const startButton = document.createElement('button');

@@ -3,15 +3,43 @@
 <head>
     <title>Antibiotic Game</title>
     <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #e0e0e0;
+            font-family: 'Arial', sans-serif;
+        }
         canvas {
             background: #ffb6c1;
             display: block;
-            margin: 0 auto;
+        }
+        .controls {
+            display: none;
+            margin-top: 10px;
+        }
+        .controls button {
+            font-size: 24px;
+            padding: 10px;
+        }
+        @media (max-width: 800px) {
+            .controls {
+                display: flex;
+                justify-content: space-around;
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <canvas id="gameCanvas" width="800" height="700"></canvas>
+    <canvas id="gameCanvas"></canvas>
+    <div class="controls">
+        <button id="arrowUp">⬆️</button>
+        <button id="arrowDown">⬇️</button>
+    </div>
     <script src="game.js"></script>
 </body>
 </html>

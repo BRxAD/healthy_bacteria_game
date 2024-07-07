@@ -156,11 +156,6 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-document.addEventListener('keyup', function(event) {
-    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-        pill.y += 1; // Smoother movement
-    }
-});
 
 init();
 

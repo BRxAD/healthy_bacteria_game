@@ -1,7 +1,23 @@
 const canvas = document.getElementById('gameCanvas');
+resizeCanvas();
+
+window.addEventListener('resize', resizeCanvas);
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
+const ctx = canvas.getContext('2d');
+
+
+
+const canvas = document.getElementById('gameCanvas');
 canvas.width = 800;  // Make the screen wider
 canvas.height = 700;
 const ctx = canvas.getContext('2d');
+
+
 
 const pillImg = new Image();
 pillImg.src = 'pill.png';

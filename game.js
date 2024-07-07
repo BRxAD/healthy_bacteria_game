@@ -22,16 +22,15 @@ let plusOneX = 0;
 let plusOneY = 0;
 
 function resizeCanvas() {
-    const minDimension = Math.min(window.innerWidth, window.innerHeight);
-    canvas.width = minDimension;
-    canvas.height = minDimension;
-
-    // Resize the pill for mobile devices
-    if (minDimension < 800) {
+    if (window.innerWidth < 800) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight / 2;
         pill.width = 64; // 2x the size
         pill.height = 64;
     } else {
-        pill.width = 32; // original size
+        canvas.width = 800;  // Original size for larger screens
+        canvas.height = 700;
+        pill.width = 32; // Original size
         pill.height = 32;
     }
 }
@@ -121,11 +120,11 @@ function draw() {
     ctx.drawImage(pillImg, pill.x, pill.y, pill.width, pill.height);
 
     for (let hb of healthyBacteria) {
-        ctx.drawImage(healthyBacteriaImg, hb.x, hb.y, 64, 64);
+        ctx.drawImage(healthyBacteriaImg, hb.x, hb.y, 128, 128); // 2x size on phones
     }
 
     for (let bb of badBacteria) {
-        ctx.drawImage(badBacteriaImg, bb.x, bb.y, 64, 64);
+        ctx.drawImage(badBacteriaImg, bb.x, bb.y, 128, 128); // 2x size on phones
     }
 
     if (showPlusOne) {
@@ -140,7 +139,7 @@ function draw() {
 }
 
 function isColliding(a, b) {
-    return a.x < b.x + 64 && a.x + a.width > b.x && a.y < b.y + 64 && a.y + a.height > b.y;
+    return a.x < b.x + 128 && a.x + a.width > b.x && a.y < b.y + 128 && a.y + a.height > b.y;
 }
 
 function displayMessage() {
@@ -179,6 +178,7 @@ canvas.addEventListener('touchstart', function(event) {
 });
 
 init();
+
 
 
 

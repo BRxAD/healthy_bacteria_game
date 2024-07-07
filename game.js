@@ -1,9 +1,8 @@
 const canvas = document.getElementById('gameCanvas');
+canvas.width = 800;  // Make the screen wider
+canvas.height = 700;
 const ctx = canvas.getContext('2d');
 
-resizeCanvas();
-
-// Double the pill size on mobile devices
 const pillImg = new Image();
 pillImg.src = 'pill.png';
 const healthyBacteriaImg = new Image();
@@ -21,21 +20,6 @@ let showPlusOne = false;
 let plusOneX = 0;
 let plusOneY = 0;
 
-function resizeCanvas() {
-    const minDimension = Math.min(window.innerWidth, window.innerHeight);
-    canvas.width = minDimension;
-    canvas.height = minDimension;
-
-    // Resize the pill for mobile devices
-    if (minDimension < 800) {
-        pill.width = 64; // 2x the size
-        pill.height = 64;
-    } else {
-        pill.width = 32; // original size
-        pill.height = 32;
-    }
-}
-
 function init() {
     healthyBacteria = [];
     badBacteria = [];
@@ -52,10 +36,8 @@ function init() {
     // Display initial instructions
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = 'black';
-    ctx.font = '36px Arial';
-    ctx.fillText("HEALTHY BACTERIA GAME", 50, canvas.height / 2 - 110);
     ctx.font = '24px Arial';
-    ctx.fillText("Your mission is to use antibiotics carefully -", 50, canvas.height / 2 - 60);
+    ctx.fillText("Your mission is to use antibiotics judiciously -", 50, canvas.height / 2 - 60);
     ctx.fillText("kill the bad bacteria but keep your healthy bacteria safe!", 50, canvas.height / 2 - 20);
     
     const startButton = document.createElement('button');
@@ -171,6 +153,12 @@ document.addEventListener('keydown', function(event) {
         pill.y -= 30;  // Move 3x more
     } else if (event.key === 'ArrowDown') {
         pill.y += 30;  // Move 3x more
+    }
+});
+
+document.addEventListener('keyup', function(event) {
+    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+        pill.y += 1; // Smoother movement
     }
 });
 

@@ -1,11 +1,14 @@
-
-
 const canvas = document.getElementById('gameCanvas');
-canvas.width = 800;  // Make the screen wider
-canvas.height = 700;
 const ctx = canvas.getContext('2d');
 
+resizeCanvas();
 
+window.addEventListener('resize', resizeCanvas);
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
 
 const pillImg = new Image();
 pillImg.src = 'pill.png';
@@ -40,7 +43,7 @@ function init() {
     // Display initial instructions
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = 'black';
-        ctx.font = '36px Arial';
+    ctx.font = '36px Arial';
     ctx.fillText("HEALTHY BACTERIA GAME", 50, canvas.height / 2 - 110);
     ctx.font = '24px Arial';
     ctx.fillText("Your mission is to use antibiotics carefully -", 50, canvas.height / 2 - 60);
@@ -166,7 +169,7 @@ canvas.addEventListener('touchstart', function(event) {
     pill.y -= 30;  // Move 3x more on touch
 });
 
-
 init();
+
 
 

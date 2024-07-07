@@ -35,16 +35,19 @@ function resizeCanvas() {
         pill.width = 32; // Original size
         pill.height = 32;
     }
+    if (startGame) {
+        draw();
+    }
 }
 
 function init() {
     healthyBacteria = [];
     badBacteria = [];
     for (let i = 0; i < 6; i++) {
-        healthyBacteria.push({ x: canvas.width + Math.random() * 1000, y: Math.random() * (canvas.height - pill.height) });
+        healthyBacteria.push({ x: canvas.width + Math.random() * 1000, y: Math.random() * (canvas.height - 128) });
     }
     for (let i = 0; i < 3; i++) {
-        badBacteria.push({ x: canvas.width + Math.random() * 3000, y: Math.random() * (canvas.height - pill.height) });
+        badBacteria.push({ x: canvas.width + Math.random() * 3000, y: Math.random() * (canvas.height - 128) });
     }
     score = 0;
     gameOver = false;
@@ -90,9 +93,9 @@ function update() {
 
     for (let hb of healthyBacteria) {
         hb.x -= 2;
-        if (hb.x < -pill.width) {
+        if (hb.x < -128) {
             hb.x = canvas.width + Math.random() * 1000;
-            hb.y = Math.random() * (canvas.height - pill.height);
+            hb.y = Math.random() * (canvas.height - 128);
         }
         if (isColliding(pill, hb)) {
             gameOver = true;
@@ -101,9 +104,9 @@ function update() {
 
     for (let bb of badBacteria) {
         bb.x -= 4;
-        if (bb.x < -pill.width) {
+        if (bb.x < -128) {
             bb.x = canvas.width + Math.random() * 3000;
-            bb.y = Math.random() * (canvas.height - pill.height);
+            bb.y = Math.random() * (canvas.height - 128);
         }
         if (isColliding(pill, bb)) {
             score++;
@@ -112,7 +115,7 @@ function update() {
             plusOneY = bb.y;
             setTimeout(() => showPlusOne = false, 500); // Show +1 for half a second
             bb.x = canvas.width + Math.random() * 3000;
-            bb.y = Math.random() * (canvas.height - pill.height);
+            bb.y = Math.random() * (canvas.height - 128);
         }
     }
 }
@@ -122,11 +125,11 @@ function draw() {
     ctx.drawImage(pillImg, pill.x, pill.y, pill.width, pill.height);
 
     for (let hb of healthyBacteria) {
-        ctx.drawImage(healthyBacteriaImg, hb.x, hb.y, pill.width * 2, pill.height * 2); // 2x size on phones
+        ctx.drawImage(healthyBacteriaImg, hb.x, hb.y, 128, 128); // 2x size on phones
     }
 
     for (let bb of badBacteria) {
-        ctx.drawImage(badBacteriaImg, bb.x, bb.y, pill.width * 2, pill.height * 2); // 2x size on phones
+        ctx.drawImage(badBacteriaImg, bb.x, bb.y, 128, 128); // 2x size on phones
     }
 
     if (showPlusOne) {
@@ -179,13 +182,7 @@ arrowUpButton.addEventListener('click', function() {
     pill.y -= 30;  // Move 3x more on button press
 });
 
-arrowDownButton.addEventListener('click', function() {
-    pill.y += 30;  // Move 3x more on button press
-});
-
-window.addEventListener('resize', resizeCanvas);
-
-init();
+arrowDownButton.addEventListener('click
 
 
 

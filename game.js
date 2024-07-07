@@ -1,5 +1,7 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
+const arrowUpButton = document.getElementById('arrowUp');
+const arrowDownButton = document.getElementById('arrowDown');
 
 resizeCanvas();
 
@@ -39,10 +41,10 @@ function init() {
     healthyBacteria = [];
     badBacteria = [];
     for (let i = 0; i < 6; i++) {
-        healthyBacteria.push({ x: canvas.width + Math.random() * 1000, y: Math.random() * (canvas.height - 64) });
+        healthyBacteria.push({ x: canvas.width + Math.random() * 1000, y: Math.random() * (canvas.height - 128) });
     }
     for (let i = 0; i < 3; i++) {
-        badBacteria.push({ x: canvas.width + Math.random() * 3000, y: Math.random() * (canvas.height - 64) });
+        badBacteria.push({ x: canvas.width + Math.random() * 3000, y: Math.random() * (canvas.height - 128) });
     }
     score = 0;
     gameOver = false;
@@ -88,9 +90,9 @@ function update() {
 
     for (let hb of healthyBacteria) {
         hb.x -= 2;
-        if (hb.x < -64) {
+        if (hb.x < -128) {
             hb.x = canvas.width + Math.random() * 1000;
-            hb.y = Math.random() * (canvas.height - 64);
+            hb.y = Math.random() * (canvas.height - 128);
         }
         if (isColliding(pill, hb)) {
             gameOver = true;
@@ -99,9 +101,9 @@ function update() {
 
     for (let bb of badBacteria) {
         bb.x -= 4;
-        if (bb.x < -64) {
+        if (bb.x < -128) {
             bb.x = canvas.width + Math.random() * 3000;
-            bb.y = Math.random() * (canvas.height - 64);
+            bb.y = Math.random() * (canvas.height - 128);
         }
         if (isColliding(pill, bb)) {
             score++;
@@ -110,7 +112,7 @@ function update() {
             plusOneY = bb.y;
             setTimeout(() => showPlusOne = false, 500); // Show +1 for half a second
             bb.x = canvas.width + Math.random() * 3000;
-            bb.y = Math.random() * (canvas.height - 64);
+            bb.y = Math.random() * (canvas.height - 128);
         }
     }
 }
@@ -173,8 +175,12 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-canvas.addEventListener('touchstart', function(event) {
-    pill.y -= 30;  // Move 3x more on touch
+arrowUpButton.addEventListener('click', function() {
+    pill.y -= 30;  // Move 3x more on button press
+});
+
+arrowDownButton.addEventListener('click', function() {
+    pill.y += 30;  // Move 3x more on button press
 });
 
 init();
